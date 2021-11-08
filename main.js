@@ -16,23 +16,32 @@ const slideAdd = document.querySelector(".slideAdd")
 const slideClose = document.querySelector(".slideClose")
 const formAdd = document.querySelector(".formAdd")
 
-const initTask = () => {
-    let selectedRadio = ''
-    inputUrgency.forEach(element => {
-        if (element.checked) {
-            selectedRadio = element
+let tasks = []
+
+
+
+const initTask = (title = '', place = '', deadline = '', descr = '', color = '', done = false) => {
+    let manually = false
+    if(title === '' && place === '' && deadline === '' && descr === '' && color === '') {
+        let selectedRadio = ''
+        inputUrgency.forEach(element => {
+            if (element.checked) {
+                selectedRadio = element
+            }
+        });
+        if(inputTitle.value === '' || inputPlace.value === '' || inputDeadLine.value === '' || inputDescription.value === '' || selectedRadio.value === '') {
+            return
         }
-    });
-    if(inputTitle.value === '' || inputPlace.value === '' || inputDeadLine.value === '' || inputDescription.value === '' || selectedRadio.value === '') {
-        return
+        title = inputTitle.value
+        place = inputPlace.value
+        deadline = inputDeadLine.value
+        descr = inputDescription.value
+        color = selectedRadio.value
+
+        manually = true
     }
-    const title = inputTitle.value
-    const place = inputPlace.value
-    const deadline = inputDeadLine.value
-    const descr = inputDescription.value
-    const color = selectedRadio.value
     
-    const newTask = new Task(title, place, deadline, descr, color)
+    const newTask = new Task(title, place, deadline, descr, color, done)
     listTask.innerHTML += newTask.createTemplate()
     noTask.style.display = 'none'
     listTask.style.display = 'flex'
@@ -45,25 +54,45 @@ const initTask = () => {
     slideClose.style.display = 'none'
     slideAdd.style.display = 'block'
 
-    const htmlTask = document.querySelector("#task" + newTask.id)
-    htmlTask.addEventListener('click', () => {
-        console.log('click done')
-        if (!htmlTask.classList.contains('done')) {
-            htmlTask.classList.add('done')
-        }
-        else {
-            htmlTask.classList.remove('done')
-        }
-    })
-    const deleteTask = document.querySelector("#delete" + newTask.id)
-    deleteTask.addEventListener('click', () => {
-        console.log('click remove')
-        htmlTask.remove()
-        if (listTask.innerText === '') {
-            listTask.style.display = 'none'
-            noTask.style.display = 'flex'
-        }
-    })
+    for (let index = 0; index <= newTask.id; index++) {
+        const htmlTask = document.querySelector("#task" + index)
+        htmlTask.addEventListener('click', () => {
+            if (!htmlTask.classList.contains('done')) {
+                htmlTask.classList.add('done')
+                tasks[index].done = true
+            }
+            else {
+                htmlTask.classList.remove('done')
+                tasks[index].done = false
+            }
+            localStorage.setItem('tasks', JSON.stringify(tasks))
+        })
+        const deleteTask = document.querySelector("#delete" + index)
+        deleteTask.addEventListener('click', () => {
+            htmlTask.remove()
+            if (listTask.innerText === '') {
+                listTask.style.display = 'none'
+                noTask.style.display = 'flex'
+            }
+            tasks.splice(index, 1)
+            localStorage.setItem('tasks', JSON.stringify(tasks))
+        })
+    }
+    if(manually) {
+        tasks.push(newTask)
+        localStorage.setItem('tasks', JSON.stringify(tasks))
+    }
+}
+
+const createTask = (title, place, deadline, descr, color, done) => {
+    initTask(title, place, deadline, descr, color, done)
+}
+
+if (localStorage.getItem('tasks') != null) {
+    tasks = JSON.parse(localStorage.getItem('tasks'))
+    tasks.forEach(element => {
+        createTask(element.title, element.place, element.deadline, element.description, element.urgency, element.done)
+    });
 }
 
 const listeners = () => {

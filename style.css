@@ -91,23 +91,23 @@ input{
 }
 
 #greyLabel{
-    background-color: #999;
+    background-color: #c4c4c4;
 }
 #yellowLabel{
-    background-color: rgb(255, 230, 0);
+    background-color: #f6c765;
 }
 #redLabel{
-    background-color: rgb(255, 7, 57);
+    background-color: #eb5349;
 }
 
 .grey{
-    border: solid 1px #999;
+    border: solid 1px #c4c4c4;
 }
 .yellow{
-    border: solid 1px rgb(255, 230, 0);
+    border: solid 1px #f6c765;
 }
 .red{
-    border: solid 1px rgb(255, 7, 57);
+    border: solid 1px #eb5349;
 }
 
 .submit{

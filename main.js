@@ -16,28 +16,7 @@ const slideAdd = document.querySelector(".slideAdd")
 const slideClose = document.querySelector(".slideClose")
 const formAdd = document.querySelector(".formAdd")
 
-slideAdd.addEventListener('click', () => {
-    formAdd.style.display = 'flex'
-    slideAdd.style.display = 'none'
-    slideClose.style.display = 'block'
-})
-
-slideClose.addEventListener('click', () => {
-    formAdd.style.display = 'none'
-    slideClose.style.display = 'none'
-    slideAdd.style.display = 'block'
-})
-
-colors.forEach(element => {
-    element.addEventListener('click', () => {
-        colors.forEach(el => {
-            el.classList.remove('selected')
-        })
-        element.classList.add('selected')
-    })
-});
-
-submitBtn.addEventListener('click', () => {
+const initTask = () => {
     let selectedRadio = ''
     inputUrgency.forEach(element => {
         if (element.checked) {
@@ -57,4 +36,62 @@ submitBtn.addEventListener('click', () => {
     listTask.innerHTML += newTask.createTemplate()
     noTask.style.display = 'none'
     listTask.style.display = 'flex'
-})
+
+    inputTitle.value = ''
+    inputPlace.value = ''
+    inputDescription.value = ''
+
+    formAdd.style.display = 'none'
+    slideClose.style.display = 'none'
+    slideAdd.style.display = 'block'
+
+    const htmlTask = document.querySelector("#task" + newTask.id)
+    htmlTask.addEventListener('click', () => {
+        console.log('click done')
+        if (!htmlTask.classList.contains('done')) {
+            htmlTask.classList.add('done')
+        }
+        else {
+            htmlTask.classList.remove('done')
+        }
+    })
+    const deleteTask = document.querySelector("#delete" + newTask.id)
+    deleteTask.addEventListener('click', () => {
+        console.log('click remove')
+        htmlTask.remove()
+        if (listTask.innerText === '') {
+            listTask.style.display = 'none'
+            noTask.style.display = 'flex'
+        }
+    })
+}
+
+const listeners = () => {
+
+    slideAdd.addEventListener('click', () => {
+        formAdd.style.display = 'flex'
+        slideAdd.style.display = 'none'
+        slideClose.style.display = 'block'
+    })
+    
+    slideClose.addEventListener('click', () => {
+        formAdd.style.display = 'none'
+        slideClose.style.display = 'none'
+        slideAdd.style.display = 'block'
+    })
+
+    colors.forEach(element => {
+        element.addEventListener('click', () => {
+            colors.forEach(el => {
+                el.classList.remove('selected')
+            })
+            element.classList.add('selected')
+        })
+    })
+
+    submitBtn.addEventListener('click', () => {
+        initTask()
+    })
+}
+
+listeners()

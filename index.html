@@ -9,15 +9,39 @@
 </head>
 <body>
     <div class="container">
-        <div class="todolist">
-            <div class="list">
-
+        <div class="listTask" style="display: none;">
+            
+        </div>
+        <div class="noTask">
+            No task remaining
+        </div>
+        <div class="formAdd" style="display: none;">
+            <div class="form">
+                <input type="text" id="titleTask" placeholder="Title">
+                <input type="text" id="place" placeholder="Paris">
+                <input type="date" id="deadline" value="2022-01-01">
+                <input type="textarea" id="description" placeholder="Description">
+                <div class="urgency">
+                    <label class="urgencyLabel selected" id="greyLabel" for="grey"></label>
+                    <label class="urgencyLabel" id="yellowLabel" for="yellow"></label>
+                    <label class="urgencyLabel" id="redLabel" for="red"></label>
+                    <input class="urgencyRadio" type="radio" name="urgency" id="grey" value="grey" checked>
+                    <input class="urgencyRadio" type="radio" name="urgency" id="yellow" value="yellow">
+                    <input class="urgencyRadio" type="radio" name="urgency" id="red" value="red">
+                </div>
+                <button class="submit">
+                    Submit
+                </button>
             </div>
-            <button class="add">
-                Add Task
-            </button>
         </div>
     </div>
+    <button class="slideAdd">
+        Add
+    </button>
+    <button class="slideClose" style="display: none;">
+        Close
+    </button>
     <script src="./main.js"></script>
+    <script src="./class/Task.js"></script>
 </body>
 </html>
